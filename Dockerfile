@@ -14,11 +14,8 @@ WORKDIR /app
 
 COPY --from=builder --chown=10001:10001 /build/build/libs/*.jar ./app.jar
 
-ENV SERVER_PORT=9090 \
-    PROFILE=prod
-
 USER 10001:10001
 
-EXPOSE 9090
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
