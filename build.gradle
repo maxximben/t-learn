@@ -1,0 +1,46 @@
+import org.springframework.boot.gradle.tasks.run.BootRun
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'ru.tbank'
+version = '0.0.1-SNAPSHOT'
+description = 't-learn'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    runtimeOnly 'org.postgresql:postgresql'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('bootRun', BootRun) {
+    def envPath = providers.gradleProperty('envFile')
+            .getOrElse('example.env')
+
+    def envVars = new Properties()
+
+    file(envPath).withReader('UTF-8') { reader ->
+        envVars.load(reader)
+    }
+
+    environment(envVars)
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+}

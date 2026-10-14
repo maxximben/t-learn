@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: t-learn
+    profiles:
+        active: ${PROFILE}
+
+server:
+    port: ${SERVER_PORT}
